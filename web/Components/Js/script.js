@@ -400,6 +400,20 @@ document.getElementById("mute-video").addEventListener("click", function () {
 
 // End Call
 document.getElementById("call-end").addEventListener("click", function () {
+  if (localStream.getVideoTracks()[0]["enabled"]) {
+    localStream.getVideoTracks()[0]["enabled"] = false;
+    let element = document.getElementById("mute-video").children[0];
+    element.classList.remove("fa-video");
+    element.classList.add("fa-video-slash");
+  } else {
+    localStream.getVideoTracks()[0]["enabled"] = true;
+    let element = document.getElementById("mute-video").children[0];
+    element.classList.remove("fa-video-slash");
+    element.classList.add("fa-video");
+  }
+  selfStream.getVideoTracks()[0]["enabled"] =
+    !selfStream.getVideoTracks()[0]["enabled"];
+
   if (confirm("Are you sure to end the meet?")) {
     localStream.getTracks().forEach((track) => {
       track.enabled = false;
